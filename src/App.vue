@@ -72,6 +72,11 @@ function playNextVideo() {
   }
 }
 
+function setPlaybackSpeed(event: Event) {
+  const video = event.currentTarget as HTMLVideoElement
+  video.playbackRate = 0.5
+}
+
 onBeforeUnmount(() => {
   window.clearInterval(slideTimer)
   window.clearInterval(clockTimer)
@@ -139,6 +144,7 @@ const date = computed(() => dateFormat.format(now.value))
               muted
               playsinline
               :loop="videos.length === 1"
+              @loadedmetadata="setPlaybackSpeed"
               @ended="playNextVideo"
               @error="videoError = true"
             >
