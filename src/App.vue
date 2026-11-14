@@ -160,20 +160,22 @@ const date = computed(() => dateFormat.format(now.value))
       <section class="data-panel" aria-label="Campus video">
         <div v-if="videos.length" class="media-player">
           <div class="video-frame">
-            <video
-              :key="videos[activeVideo].src"
-              :src="videos[activeVideo].src"
-              autoplay
-              preload="auto"
-              muted
-              playsinline
-              :loop="videos.length === 1"
-              @loadedmetadata="setPlaybackSpeed"
-              @ended="playNextVideo"
-              @error="videoError = true"
-            >
-              Your browser does not support video playback.
-            </video>
+            <Transition name="video-fade" mode="out-in">
+              <video
+                :key="videos[activeVideo].src"
+                :src="videos[activeVideo].src"
+                autoplay
+                preload="auto"
+                muted
+                playsinline
+                :loop="videos.length === 1"
+                @loadedmetadata="setPlaybackSpeed"
+                @ended="playNextVideo"
+                @error="videoError = true"
+              >
+                Your browser does not support video playback.
+              </video>
+            </Transition>
             <p v-if="videoError" class="video-error">
               This video could not be played. Check that the MP4 uses a browser-supported codec.
             </p>
