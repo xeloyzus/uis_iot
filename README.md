@@ -27,6 +27,10 @@ A Pages workflow is included at `.github/workflows/deploy.yml`.
 
 `vite.config.ts` uses `base: './'`, so assets remain portable on a GitHub Pages project path.
 
+## Adding campus videos
+
+Put MP4 files in [`src/assets/videos/`](src/assets/videos/). They are discovered automatically at build time, shown in the campus media player, and played in filename order. The player advances to the next video when one finishes.
+
 ## Moving from preview to live data
 
 The UI currently uses explicit placeholder values and an illustrative chart labeled **DEMO DATA / NOT LIVE**.

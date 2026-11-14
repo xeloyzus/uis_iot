@@ -121,22 +121,17 @@ h1 { margin-block: 14px 22px; color: var(--blue); font-size: clamp(44px, 4.9vw, 
 .panel-heading h2 { margin-top: 3px; color: var(--blue); font-size: clamp(23px, 2.1vw, 34px); line-height: 1.15; font-weight: 600; }
 .preview-chip, .demo-badge { padding: 5px 9px; color: var(--blue); background: var(--pale-blue); font-size: 12px; font-weight: 600; }
 
-.metric-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 8px; margin-block: 22px 14px; }
-.metric-card { display: grid; grid-template-rows: 1fr auto auto; align-content: start; gap: 5px; padding: 12px; background: var(--light-blue); }
-.metric-card h3 { color: var(--blue); font-size: 13px; font-weight: 600; }
-.metric-value { color: var(--blue); font-size: 26px; line-height: 1.15; font-weight: 600; }
-.metric-value small, .metric-note { color: var(--muted); font-size: 12px; }
-
-.chart-card { border: 1px solid var(--rule); padding: 16px; }
-.chart-head h3 { color: var(--blue); font-size: 17px; font-weight: 600; }
-.chart-wrap { margin-top: 12px; }
-.chart-unit { display: block; margin-bottom: 2px; color: var(--muted); font-size: 12px; }
-.chart-wrap svg { display: block; width: 100%; height: auto; overflow: visible; }
-.chart-wrap text { fill: var(--muted); font-size: 15px; }
-.axis line { stroke: var(--rule); stroke-width: 1; }
-.chart-area { fill: var(--light-blue); }
-.chart-line { fill: none; stroke: var(--brand-blue); stroke-width: 3; stroke-linecap: round; stroke-linejoin: round; }
-.chart-point { fill: var(--white); stroke: var(--brand-blue); stroke-width: 2; }
+.media-player { margin-top: 22px; }
+.video-frame { position: relative; overflow: hidden; background: #10152a; }
+.video-frame video { display: block; width: 100%; aspect-ratio: 16 / 9; object-fit: contain; }
+.video-error { padding: 10px 14px; color: #fff; background: #8d2438; font-size: 13px; }
+.playlist { display: flex; flex-wrap: wrap; gap: 8px; padding-top: 12px; }
+.playlist button { padding: 8px 11px; border: 1px solid var(--rule); background: var(--white); color: var(--blue); font-size: 13px; cursor: pointer; }
+.playlist button:hover, .playlist button.active { border-color: var(--blue); background: var(--pale-blue); }
+.media-empty { margin-top: 22px; padding: 36px 22px; border: 1px dashed var(--rule); background: var(--light-blue); text-align: center; }
+.media-empty h3 { color: var(--blue); font-size: 17px; font-weight: 600; }
+.media-empty p { margin-top: 6px; color: var(--muted); font-size: 13px; }
+.media-empty code { color: var(--blue); font-size: 12px; }
 
 .site-footer { background: var(--white); border-top: 1px solid var(--rule); }
 .footer-inner { min-height: 78px; padding-block: 16px; font-size: 14px; }
@@ -147,9 +142,7 @@ h1 { margin-block: 14px 22px; color: var(--blue); font-size: clamp(44px, 4.9vw, 
   .topbar-inner { min-height: 76px; }
   .hero { padding-block: 24px; }
   .data-panel { padding: 18px; }
-  .metric-grid { margin-block: 14px 10px; }
-  .chart-card { padding: 12px; }
-  .chart-wrap svg { max-height: 200px; }
+  .media-player { margin-top: 14px; }
   .footer-inner { min-height: 66px; padding-block: 12px; }
 }
 
@@ -168,7 +161,5 @@ h1 { margin-block: 14px 22px; color: var(--blue); font-size: clamp(44px, 4.9vw, 
   .topbar-inner { min-height: 76px; }
   .university-link img { width: 104px; }
   .clock-wrap { display: none; }
-  .chart-card { padding: 12px; }
-  .chart-wrap text { font-size: 23px; }
-  .alternate-tick { display: none; }
+  .media-empty { padding-inline: 14px; }
 }
