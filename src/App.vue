@@ -9,7 +9,6 @@ type Slide = {
 }
 
 type Video = {
-  name: string
   src: string
 }
 
@@ -38,8 +37,7 @@ const videoModules = import.meta.glob('./assets/videos/*.mp4', {
 }) as Record<string, string>
 const videos: Video[] = Object.entries(videoModules)
   .sort(([first], [second]) => first.localeCompare(second))
-  .map(([path, src]) => ({
-    name: path.split('/').pop()?.replace(/\.mp4$/i, '') || 'Campus video',
+  .map(([, src]) => ({
     src,
   }))
 
@@ -67,14 +65,10 @@ function selectSlide(index: number) {
   activeSlide.value = index
 }
 
-function selectVideo(index: number) {
-  activeVideo.value = index
-  videoError.value = false
-}
-
 function playNextVideo() {
   if (videos.length > 1) {
-    selectVideo((activeVideo.value + 1) % videos.length)
+    activeVideo.value = (activeVideo.value + 1) % videos.length
+    videoError.value = false
   }
 }
 
@@ -134,20 +128,17 @@ const date = computed(() => dateFormat.format(now.value))
         </div>
       </section>
 
-      <section class="data-panel" aria-label="Video player">
-        <div class="panel-heading">
-          <span class="preview-chip">{{ videos.length }} {{ videos.length === 1 ? 'video' : 'videos' }}</span>
-        </div>
-
+      <section class="data-panel" aria-label="Campus video">
         <div v-if="videos.length" class="media-player">
           <div class="video-frame">
             <video
               :key="videos[activeVideo].src"
               :src="videos[activeVideo].src"
-              controls
               autoplay
+              preload="auto"
               muted
               playsinline
+              :loop="videos.length === 1"
               @ended="playNextVideo"
               @error="videoError = true"
             >
@@ -156,18 +147,6 @@ const date = computed(() => dateFormat.format(now.value))
             <p v-if="videoError" class="video-error">
               This video could not be played. Check that the MP4 uses a browser-supported codec.
             </p>
-          </div>
-          <div class="playlist" aria-label="Campus video playlist">
-            <button
-              v-for="(video, index) in videos"
-              :key="video.src"
-              type="button"
-              :class="{ active: index === activeVideo }"
-              :aria-current="index === activeVideo ? 'true' : undefined"
-              @click="selectVideo(index)"
-            >
-              {{ video.name }}
-            </button>
           </div>
         </div>
         <div v-else class="media-empty">
