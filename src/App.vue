@@ -47,8 +47,10 @@ const activeSlide = ref(0)
 const activeVideo = ref(0)
 const videoError = ref(false)
 const now = ref(new Date())
+const pageRefreshInterval = 5 * 60 * 1000
 let slideTimer: number | undefined
 let clockTimer: number | undefined
+let refreshTimer: number | undefined
 
 onMounted(() => {
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -57,6 +59,7 @@ onMounted(() => {
     }, 8000)
   }
   clockTimer = window.setInterval(() => { now.value = new Date() }, 1000)
+  refreshTimer = window.setInterval(() => { window.location.reload() }, pageRefreshInterval)
 })
 
 function selectSlide(index: number) {
@@ -78,6 +81,7 @@ function playNextVideo() {
 onBeforeUnmount(() => {
   window.clearInterval(slideTimer)
   window.clearInterval(clockTimer)
+  window.clearInterval(refreshTimer)
 })
 
 const timeFormat = new Intl.DateTimeFormat('en-GB', {
@@ -130,12 +134,8 @@ const date = computed(() => dateFormat.format(now.value))
         </div>
       </section>
 
-      <section class="data-panel" aria-labelledby="monitoring-title">
+      <section class="data-panel" aria-label="Video player">
         <div class="panel-heading">
-          <div>
-            <p class="eyebrow">Campus media</p>
-            <h2 id="monitoring-title">Campus videos</h2>
-          </div>
           <span class="preview-chip">{{ videos.length }} {{ videos.length === 1 ? 'video' : 'videos' }}</span>
         </div>
 
