@@ -45,10 +45,30 @@ const activeSlide = ref(0)
 const activeVideo = ref(0)
 const videoError = ref(false)
 const now = ref(new Date())
-const pageRefreshInterval = 5 * 60 * 1000
+const updateCheckInterval = 5 * 60 * 1000
+const currentBuildAsset = document
+  .querySelector<HTMLScriptElement>('script[type="module"][src]')
+  ?.getAttribute('src')
 let slideTimer: number | undefined
 let clockTimer: number | undefined
 let refreshTimer: number | undefined
+
+async function checkForUpdate() {
+  const response = await fetch(`./index.html?check=${Date.now()}`, { cache: 'no-store' })
+  if (!response.ok) {
+    throw new Error(`Update check failed with status ${response.status}`)
+  }
+
+  const latestHtml = await response.text()
+  const latestDocument = new DOMParser().parseFromString(latestHtml, 'text/html')
+  const latestBuildAsset = latestDocument
+    .querySelector<HTMLScriptElement>('script[type="module"][src]')
+    ?.getAttribute('src')
+
+  if (currentBuildAsset && latestBuildAsset && currentBuildAsset !== latestBuildAsset) {
+    window.location.reload()
+  }
+}
 
 onMounted(() => {
   if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
@@ -57,7 +77,11 @@ onMounted(() => {
     }, 8000)
   }
   clockTimer = window.setInterval(() => { now.value = new Date() }, 1000)
-  refreshTimer = window.setInterval(() => { window.location.reload() }, pageRefreshInterval)
+  refreshTimer = window.setInterval(() => {
+    void checkForUpdate().catch((error: unknown) => {
+      console.warn('Could not check for a newer deployment.', error)
+    })
+  }, updateCheckInterval)
 })
 
 function selectSlide(index: number) {
